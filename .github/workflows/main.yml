@@ -1,0 +1,31 @@
+name: Publish
+
+on:
+  push:
+    tags:
+      - '*'
+
+jobs:
+  build:
+    name: Publish binaries
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: hecrj/setup-rust-action@v1
+      with:
+        rust-version: stable
+    - uses: actions/checkout@v1
+    - name: Build
+      run: npm run build
+    - name: Upload binaries to release
+      uses: svenstaro/upload-release-action@v1-release
+      with:
+        repo_token: ${{ secrets.GITHUB_TOKEN }}
+        file: dist/sync-linux
+        file: dist/sync-macos
+        file: dist/sync-win.exe
+        asset_name: sync-linux
+        asset_name: sync-macos
+        asset_name: sync-win.exe
+        tag: ${{ github.ref }}
+        overwrite: true
