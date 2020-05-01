@@ -16,9 +16,7 @@ jobs:
         rust-version: stable
     - uses: actions/checkout@v1
     - name: Build
-      run: npm i
-      run: npm i @types/node
-      run: npm run build
+      run: npm i && npm i @types/node && npm run build
     - name: Upload binaries to release
       uses: svenstaro/upload-release-action@v1-release
       with:
